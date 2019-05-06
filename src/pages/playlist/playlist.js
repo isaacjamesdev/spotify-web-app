@@ -1,57 +1,74 @@
-import React from 'react';
+import React, { Component } from "react";
 
-import { Container, Header, SongList } from './styles';
-import PlusIcon from '../../Assets/images/plus.svg'
-import ClockIcon from '../../Assets/images/clock.svg'
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Creators as playlistDetailsActions } from "../../store/ducks/playlistDetails";
 
-const playlist = () => (
-    <Container>
+import { Container, Header, SongList } from "./styles";
+import PlusIcon from "../../Assets/images/plus.svg";
+import ClockIcon from "../../Assets/images/clock.svg";
+
+class playlist extends Component {
+  componentDidMount() {
+    console.tron.log(this.props);
+    this.props.getPlaylistDetailsRequest(this.props.match.params.id);
+  }
+
+  render() {
+    return (
+      <Container>
         <Header>
-            <img src="https://i.ytimg.com/vi/72VZs9SDXHo/hqdefault.jpg" alt="playlist"/>
-            <div>
-                <span>PLAYLIST</span>
-                <h1>Rock Forever</h1>
-                <p>12 Music</p>
+          <img src={this.props.playlistDetails.data.thumbnail} alt="playlist" />
+          <div>
+            <span>PLAYLIST</span>
+            <h1>{this.props.playlistDetails.data.title}</h1>
+            <p>{this.props.playlistDetails.data.description}</p>
 
-                <button>PLAY</button>
-            </div>
+            <button>PLAY</button>
+          </div>
         </Header>
 
         <SongList cellPadding={0} cellSpacing={0}>
-            <thead>
-                <th>Title</th>
-                <th>Artist</th>
-                <th>Album</th>
-                <th><img src={ClockIcon} alt="duration"/></th>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><img src={PlusIcon} alt="add"/></td>
-                    <td>Cartola</td>
-                    <td>Engenheiros do Hawaii</td>
-                    <td>4:23</td>
-                </tr>
-                <tr>
-                    <td><img src={PlusIcon} alt="add"/></td>
-                    <td>Cartola</td>
-                    <td>Engenheiros do Hawaii</td>
-                    <td>4:23</td>
-                </tr>
-                <tr>
-                    <td><img src={PlusIcon} alt="add"/></td>
-                    <td>Cartola</td>
-                    <td>Engenheiros do Hawaii</td>
-                    <td>4:23</td>
-                </tr>
-                <tr>
-                    <td><img src={PlusIcon} alt="add"/></td>
-                    <td>Cartola</td>
-                    <td>Engenheiros do Hawaii</td>
-                    <td>4:23</td>
-                </tr>
-            </tbody>
+          <thead>
+            <th>Title</th>
+            <th>Artist</th>
+            <th>Album</th>
+            <th>
+              <img src={ClockIcon} alt="duration" />
+            </th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <img src={PlusIcon} alt="add" />
+              </td>
+              <td>Cartola</td>
+              <td>Engenheiros do Hawaii</td>
+              <td>4:23</td>
+            </tr>
+            <tr>
+              <td>
+                <img src={PlusIcon} alt="add" />
+              </td>
+              <td>Cartola</td>
+              <td>Engenheiros do Hawaii</td>
+              <td>4:23</td>
+            </tr>
+          </tbody>
         </SongList>
-    </Container>
-);
+      </Container>
+    );
+  }
+}
 
-export default playlist;
+const mapStateToProps = state => ({
+  playlistDetails: state.playlistDetails
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(playlistDetailsActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(playlist);
