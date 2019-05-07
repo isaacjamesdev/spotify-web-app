@@ -15,8 +15,8 @@ class playlist extends Component {
     this.props.getPlaylistDetailsRequest(this.props.match.params.id);
   }
 
-  componentDidUpdate(prevProps){
-    if(prevProps.match.params !== this.props.match.params)
+  componentDidUpdate(prevProps) {
+    if (prevProps.match.params !== this.props.match.params)
       this.props.getPlaylistDetailsRequest(this.props.match.params.id);
   }
 
